@@ -34,8 +34,13 @@ int print_help()
     "options:\n"
     "-h, --help\t show this help\n"
     "--remap:\tremaps sequence to [1 if 6 else 0]]\n"
+    "example usage\n"
     "e.g. if a sequence of heads heads tails tails heads is observed one would run: \n"
-    "viterbi 00110"  << std::endl;
+    "viterbi 00110\n"
+    "for a sequence of 1 through 6es one would use:\n"
+    "viterbi --remap 132645\n"
+    "which would be read then as 0001000"
+    << std::endl;
     return 0;
 }
 int raise_inv_arg(char* arg)
