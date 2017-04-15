@@ -27,11 +27,18 @@ which would be read then as 0001000
 if output is not set to verbose, the only outputs are the maxpaths for the given input sequence. Note that this might be more than one, as some paths might have equal probability. This is a sequence of chars indicating the most likely sequence of state, with each being denoted as `char state = '0' + index of state`, so if more than 10 states are present,the 10th indexed state, (because of 0-indexing), will be mapped to char('0' + 10).  
 you can use `--list-states` to show the lookup table of states and their respective character.
 
+
+
 In verbose output, you will also see the sequence of probabilities (in log10) of ending op at a state and emitting a certain symbol, and the most likely previous states.
 this will be denoted as:  
-`<Emission> '|' <Probability> \t <ML_Previous_states> '|'` (with the last part between '|'s repeated for each state)
+`<Emission> '|' <Max_Probability> \t <ML_Previous_states> '|'` (with the last part between '|'s repeated for each state)
+
+
 As the most likely previous states are denoted as a bitarray, but printed as an unsigned int, this means that a state with index S is a Most likely previous state if the for the outputted value V is true `V mod (2 ^ S) == 0`.  
-e.g, there is an output 
+(At the first emitted symbol (`input_sequence[0]`), the ML_Previous_states is 0, as there is no previous state)  
+
+e.g., there is an output  
 `1|-2.0 1| -2.7 3`  
-this means that at this position, there is a 10^-2 probability of ending up in state 0 and emitting symbol 1, and its most likely previous state (0b00000001) is state 0.
-and that there is a 10^2.7 chance of ending up in state 1 and emitting symbol 1, and its most likely previous state (0b00000011) are 0 and 1 (both are equally likely).
+this means that at this position, there is a 10^-2 max probability of ending up in state 0 and emitting symbol 1, and its most likely previous state (0b00000001) is state 0.  
+There is a 10^2.7 max probability of ending up in state 1 and emitting symbol 1, and its most likely previous state (0b00000011) are 0 and 1 (both are equally likely).
+
