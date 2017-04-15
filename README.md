@@ -34,7 +34,7 @@ this will be denoted as:
 `<Emission> '|' <Max_Probability> \t <ML_Previous_states> '|'` (with ` <Max_Probability> \t <ML_Previous_states> '|' ` repeated for each state)
 
 
-As the most likely previous states are denoted as a bitarray, but printed as an unsigned int, this means that a state with index S is a Most likely previous state if the for the outputted value V is true `V mod (2 ^ S) == 0`.  
+As the most likely previous states are denoted as a bitarray, but printed as an unsigned int, this means that a state with index S is a Most likely previous state if the for the outputted value V is true `V BITWISE-AND (2 ^ S) == 2 ^ S`.  
 (At the first emitted symbol (`input_sequence[0]`), the ML_Previous_states is 0, as there is no previous state)  
 
 e.g., there is an output  
