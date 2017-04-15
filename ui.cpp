@@ -1,8 +1,10 @@
 #include <iostream>
+#include <iomanip> //for std::setw
+#include <cmath> //for std::ceil, std::log10
 #include "viterbi.h"
 #include "ui.h"
 /*copies numerical values of char array to int_array, 
- *returns true if all values are digits succes*/
+ returns true if all values are digits succes*/
 bool char_to_intarr(char* char_in, int* int_seq, int (*chartoint)(char))
 {
     int value;
@@ -16,10 +18,19 @@ bool char_to_intarr(char* char_in, int* int_seq, int (*chartoint)(char))
     return true;
 }
 
+
 int subtract_zero(char ch)
 {
     return ch - '0';
 }
+
+void print_arr(int * int_seq, int len_seq)
+{
+    for (int i = 0; i < len_seq - 1; i++)
+        std::cout << int_seq[i] << ", ";
+    std::cout << int_seq[len_seq - 1] << std::endl;
+}
+
 
 int remap_binary(char ch)
 {
@@ -32,14 +43,19 @@ int print_help()
     "viterbi by MDP\n"
     "usage: viterbi [options] <seq>,  where <seq> is a string of observed emmissions, (zero indexed)\n"
     "options:\n"
+    "-r, --remap:\tremaps sequence to [1 if 6 else 0]]\n"
+    "-V, --verbose:\tverbose output\n"
+    "options to be used without input sequence:\n"
+    "-l, --list-states:\tshow state-character lookup table\n"
     "-h, --help\t show this help\n"
-    "--remap:\tremaps sequence to [1 if 6 else 0]]\n"
+    
     "example usage\n"
     "e.g. if a sequence of heads heads tails tails heads is observed one would run: \n"
     "viterbi 00110\n"
     "for a sequence of 1 through 6es one would use:\n"
     "viterbi --remap 132645\n"
     "which would be read then as 0001000"
+    
     << std::endl;
     return 0;
 }
@@ -57,6 +73,18 @@ int raise_inv_argc(int argc)
     std::cout <<  std::endl;
     print_help();
     return 1;
+}
+
+int list_states()
+{
+    int number_width = std::ceil(std::log10(rules.states - 1));
+    std::cout << "The state - character lookup table is:" << std::endl;
+    for (int i = 0; i < number_width + 6; i++)
+        std::cout << '_';
+    std::cout << std::endl;
+    for (int i = 0; i < rules.states; i++)
+        std::cout << std::setw(number_width) << i << " | " << (char)('0' + i) << " | " << std::endl;
+    return 0;
 }
 
 int raise_inv_input()

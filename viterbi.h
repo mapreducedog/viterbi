@@ -29,6 +29,7 @@ void backtrack(char * path,unsigned int index, unsigned int state, unsigned int 
 
 void print_maxpaths(unsigned int max_end_bitarray, unsigned int ** max_lk, int len_seq);
 
+void eval(int * em_seq, int len_seq, bool verbose);
 void eval(int * em_seq, int len_seq);
 
 #endif

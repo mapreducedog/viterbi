@@ -2,6 +2,7 @@
 #include "ui.h"
 #include <cmath> //for std::log10
 #include <string.h> //for strcmp
+#include <iostream>
 
 
 //change the dimensionality in viterbi.h if changing nr_emission/nr_states here.
@@ -20,19 +21,27 @@ struct rules_set<2, 2> rules = {
 
 int main(int argc, char ** argv) 
 {
-    if (argc >=  2 && (!strcmp(argv[1],  "-h") || !strcmp(argv[1],  "--help")))
-        return print_help();
-    
     char * instring = argv[argc - 1];
+    bool verbose = false;
     int (*chartoint)(char);
     
     if (argc > 2 && argv[1][0] == '-')
-        if (!strcmp(argv[1], "--remap"))
-            chartoint = remap_binary;
-        else
-            return raise_inv_arg(argv[1]);
+        for (int i = 1; i < argc - 1; i++)
+            if (!strcmp(argv[i], "--remap") || !strcmp(argv[i], "-r"))
+                chartoint = remap_binary;
+            else if (!strcmp(argv[i], "-V") || !strcmp(argv[i], "--verbose"))
+                verbose = true;
+            else
+                return raise_inv_arg(argv[i]);
     else if (argc == 2)
-        chartoint= subtract_zero;
+        if (!strcmp(argv[1],  "-h") || !strcmp(argv[1],  "--help"))
+            return print_help();
+        else if (!strcmp(argv[1], "-l") || !strcmp(argv[1], "--list-states"))
+            return list_states(); 
+        else if (argv[1][0] == '-')
+            return raise_inv_arg(argv[1]);
+        else
+            chartoint= subtract_zero;
     else
         return raise_inv_argc(argc);
     
@@ -41,6 +50,11 @@ int main(int argc, char ** argv)
     
     if (!char_to_intarr(instring, em_seq, chartoint))
         return raise_inv_input();
-    eval(em_seq, em_len);
+    if (verbose)
+    {
+        std::cout << "input array:" << std::endl;
+        print_arr(em_seq, em_len);
+    }
+    eval(em_seq, em_len, verbose);
     return 0;
 }

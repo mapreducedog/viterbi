@@ -66,7 +66,7 @@ void print_maxpaths(unsigned int max_end_bitarray, unsigned int ** max_lk, int l
 }
 
 
-void eval(int * em_seq, int len_seq) 
+void eval(int * em_seq, int len_seq, bool verbose) 
 {
 	float p_state [2][rules.states]; //2d array p_state[index % 2][state] of viterbi(state|index)
 	//we only need two indices, as only the current and previous score is needed, 
@@ -75,15 +75,27 @@ void eval(int * em_seq, int len_seq)
     for (unsigned int i = 0; i < len_seq; i++) //used dynamically allocated memory here so that we can easily pass **unsigned int to backtrack and print_maxpaths,
         max_lk_prev[i] = new unsigned int[rules.states];
     
+    if (verbose)
+    {
+        std::cout << "Emission | Probability, ML predecessor per state:" << std::endl;
+        std::cout << em_seq[0] << "|";
+    }
     //set probablities at index 0
+    
 	for (unsigned int i = 0; i < rules.states; i++) 
 	{
 		p_state[0][i] = rules.initial_state_dist[i]; 
 		max_lk_prev[0][i] = 0;
+        if (verbose)
+            std::cout << p_state[0][i] << "|" << 0;
 	}
+	if (verbose)
+        std::cout << std::endl;
 	
 	for (unsigned int index = 1; index < len_seq ; index++ )
 	{
+        if (verbose)
+            std::cout << em_seq[index] << "|";
 		for (unsigned int state = 0; state < rules.states; state++)
 		{
 			max_struct this_score = score_likelihood(p_state[(index - 1) % 2], 
@@ -91,14 +103,23 @@ void eval(int * em_seq, int len_seq)
 							rules.p_emi[state][em_seq[index]]);
 			max_lk_prev[index][state] = this_score.max_pos;
 			p_state[index % 2][state] = this_score.prob;
-            //std::cout << this_score.prob << '\t' << this_score.max_pos << '|';
+            if (verbose)
+                std::cout << this_score.prob << '\t' << this_score.max_pos << '|';
 		}
-		//std::cout << std::endl;
+		if (verbose)
+            std::cout << std::endl;
 	}
+	if (verbose)
+        std::cout << "maxpaths:" << std::endl;
 	print_maxpaths(get_max(p_state[(len_seq - 1) % 2]).max_pos, max_lk_prev, len_seq);
     
     //free memory
     for (unsigned int i = 0; i < len_seq; i++)
         delete[] max_lk_prev[i];
     delete[] max_lk_prev;
+}
+
+void eval(int * em_seq, int len_seq)
+{
+    eval(em_seq, len_seq, false);
 }
