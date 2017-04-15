@@ -31,7 +31,7 @@ you can use `--list-states` to show the lookup table of states and their respect
 
 In verbose output, you will also see the sequence of probabilities (in log10) of ending op at a state and emitting a certain symbol, and the most likely previous states.
 this will be denoted as:  
-`<Emission> '|' <Max_Probability> \t <ML_Previous_states> '|'` (with the last part between '|'s repeated for each state)
+`<Emission> '|' <Max_Probability> \t <ML_Previous_states> '|'` (with ` <Max_Probability> \t <ML_Previous_states> '|' ` repeated for each state)
 
 
 As the most likely previous states are denoted as a bitarray, but printed as an unsigned int, this means that a state with index S is a Most likely previous state if the for the outputted value V is true `V mod (2 ^ S) == 0`.  
