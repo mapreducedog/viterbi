@@ -43,7 +43,16 @@ this means that at this position, there is a 10^-2 max probability of ending up 
 There is a 10^2.7 max probability of ending up in state 1 and emitting symbol 1, and its most likely previous state (0b00000011) are 0 and 1 (both are equally likely).
   
 # Adjusting for your use
-To adjust for your use, change the `rules_set<2,2>` rules in `main.cpp`, and update viterbi.h to reflect this. Follow the formatting in the file to suit your needs
+To adjust for your use, change the `rules_set rules<2,2> ` in `main.cpp`, and update viterbi.h to reflect this. Follow the formatting in the file to suit your needs. To clarify the rules should be formatted like 
+```
+rules'<'<number of states>, <number of different emission symbols> '>' { 
+<number of states> ,
+<number of different emission symbols>
+<2d array of emission probabilities in log10, 
+in which the first dimension is the state, and the second dimension is the emission symbol>,
+<2d array of transition probabilities in log10, in which the first dimension is the target/to state and the second dimension is the source/from state>
+}
+```
 
 
 
