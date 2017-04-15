@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 2.6)
+project(viterbi)
+set(CMAKE_CXX_FLAGS "-std=gnu++11")
+add_library(vit_lib viterbi.cpp)
+add_library(ui_lib ui.cpp)
+add_executable(viterbi main.cpp)
+target_link_libraries(viterbi vit_lib ui_lib)
+install(TARGETS viterbi RUNTIME DESTINATION bin)
