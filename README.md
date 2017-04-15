@@ -47,10 +47,11 @@ To adjust for your use, change the `rules_set rules<2,2> ` in `main.cpp`, and up
 ```
 rules'<'<number of states>, <number of different emission symbols> '>' { 
 <number of states> ,
-<number of different emission symbols>
+<number of different emission symbols>,
 <2d array of emission probabilities in log10, 
 in which the first dimension is the state, and the second dimension is the emission symbol>,
 <2d array of transition probabilities in log10, in which the first dimension is the target/to state and the second dimension is the source/from state>
+<array of initial state distribitions probabilities (in log 10)>
 }
 ```
 
