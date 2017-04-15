@@ -1,6 +1,5 @@
 #ifndef viterbi_header
 #define viterbi_header
-#include <math.h> //for log10f
 
 template <int states_, int emissions_> 
 struct rules_set 

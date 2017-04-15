@@ -1,5 +1,4 @@
 #include <iostream> 
-#include <math.h> //for log10f
 #include "viterbi.h"
 
 

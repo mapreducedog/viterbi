@@ -1,20 +1,20 @@
 #include "viterbi.h"
 #include "ui.h"
-#include <string.h>
-#include <iostream>
+#include <cmath> //for std::log10
+#include <string.h> //for strcmp
 
 
 //change the dimensionality in viterbi.h if changing nr_emission/nr_states here.
 struct rules_set<2, 2> rules = {
 	2,
 	2,
-	{{ log10f(5.0/6),   log10f(1.0/6)}, //P_emit(0|state = 0), P_emit(1|state = 0)
-	{  log10f(1.0/2),   log10f(1.0/2)}}  //P_emit(0|state = 1), P_emit(1|state = 1)
+	{{ std::log10(5.f/6),   std::log10(1.f/6)}, //P_emit(0|state = 0), P_emit(1|state = 0)
+	{  std::log10(1.f/2),   std::log10(1.f/2)}}  //P_emit(0|state = 1), P_emit(1|state = 1)
 	,
-    {{ log10f(0.95),    log10f(0.1)}, //Ptransition_to(state = 0 | prev_state = 0), P(0| prev_state = 1) 
-    {  log10f(0.05),    log10f(0.9)}}//Ptransition_to(state = 1 | prev_state = 0), P(1| prev_state = 1)
+    {{ std::log10(0.9f),    std::log10(0.1f)}, //Ptransition_to(state = 0 | prev_state = 0), P(0| prev_state = 1) 
+    {  std::log10(0.05f),    std::log10(0.9f)}}//Ptransition_to(state = 1 | prev_state = 0), P(1| prev_state = 1)
 	,
-	{  log10f(0.5),     log10f(0.5) } //P_index_0(state = 0), P_index_0(state = 1)
+	{  std::log10(0.5f),     std::log10(0.5f) } //P_index_0(state = 0), P_index_0(state = 1)
 };
 
 
@@ -41,7 +41,6 @@ int main(int argc, char ** argv)
     
     if (!char_to_intarr(instring, em_seq, chartoint))
         return raise_inv_input();
-    
     eval(em_seq, em_len);
     return 0;
 }
