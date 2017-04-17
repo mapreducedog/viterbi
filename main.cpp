@@ -12,7 +12,7 @@ struct rules_set<2, 2> rules = {
 	{{ std::log10(5.f/6),   std::log10(1.f/6)}, //P_emit(0|state = 0), P_emit(1|state = 0)
 	{  std::log10(1.f/2),   std::log10(1.f/2)}}  //P_emit(0|state = 1), P_emit(1|state = 1)
 	,
-    {{ std::log10(0.9f),    std::log10(0.1f)}, //Ptransition_to(state = 0 | prev_state = 0), P(0| prev_state = 1) 
+    {{ std::log10(0.95f),    std::log10(0.1f)}, //Ptransition_to(state = 0 | prev_state = 0), P(0| prev_state = 1) 
     {  std::log10(0.05f),    std::log10(0.9f)}}//Ptransition_to(state = 1 | prev_state = 0), P(1| prev_state = 1)
 	,
 	{  std::log10(0.5f),     std::log10(0.5f) } //P_index_0(state = 0), P_index_0(state = 1)
