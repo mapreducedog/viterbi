@@ -4,10 +4,8 @@ A viterbi path finder, implemented in C++11
 # usage: 
 `viterbi [options] <seq>,`
 where `<seq>` is a string of observed emmissions, (zero indexed)
-## options to be used with input sequence
   `-r`, `--remap` 	remaps `<seq>` to [1 if 6 else 0]]  
   `-V`, `--verbose` enable verbose output  
-## options to be used without input sequence
   `-h`, `--help`	 shows help  
   `-l`, `--list-states` shows the state-character-map
   
@@ -59,6 +57,23 @@ in which the first dimension is the state, and the second dimension is the emiss
 
 # Example
 There is a sequence of die-rolls `315116246446644245321131631164152133625144543631656626566666651166453132651245636664631636663162326455235266666625151631222555441666566563564324364131513465146353411126414626253356366163666466232534413661661163252562462255265252266435353336233121625364414432335163243633665562466662632666612355245242` for the current rules, where the 0-indexed is a fair die, and the 1-indexed is a loaded die.  
+and we have the rules 
+```
+struct rules_set<2, 2> rules = {
+	2,
+	2,
+	{{ std::log10(5.f/6),   std::log10(1.f/6)}, //P_emit(0|state = 0), P_emit(1|state = 0)
+	{  std::log10(1.f/2),   std::log10(1.f/2)}}  //P_emit(0|state = 1), P_emit(1|state = 1)
+	,
+    {{ std::log10(0.95f),    std::log10(0.1f)}, //Ptransition_to(state = 0 | prev_state = 0), P(0| prev_state = 1) 
+    {  std::log10(0.05f),    std::log10(0.9f)}}//Ptransition_to(state = 1 | prev_state = 0), P(1| prev_state = 1)
+	,
+	{  std::log10(0.5f),     std::log10(0.5f) } //P_index_0(state = 0), P_index_0(state = 1)
+};
+```
+
+
+
 the output of `viterbi -r` for this sequence is 
 `000000000000000000000000000000000000000000000000111111111111111111000000000000111111111111111111111111111111111100000000000000000000000000000000000000000000000000000000000000000001111111111111000000000000000000000000000000000000000000000000000000000000000000000000000000111111111111111111100000000000`
 `

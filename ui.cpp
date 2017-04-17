@@ -45,9 +45,8 @@ int print_help()
     "options:\n"
     "-r, --remap:\tremaps sequence to [1 if 6 else 0]]\n"
     "-V, --verbose:\tverbose output\n"
-    "options to be used without input sequence:\n"
-    "-l, --list-states:\tshow state-character lookup table\n"
-    "-h, --help\t show this help\n"
+    "-l, --list-states:\tshow state-character lookup table (can be used without <seq>)\n "
+    "-h, --help\t show this help (can be used without <seq>)\n"
     
     "example usage\n"
     "e.g. if a sequence of heads heads tails tails heads is observed one would run: \n"
