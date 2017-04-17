@@ -23,27 +23,25 @@ int main(int argc, char ** argv)
 {
     char * instring = argv[argc - 1];
     bool verbose = false;
-    int (*chartoint)(char);
+    int (*chartoint)(char) = subtract_zero;
     
-    if (argc > 2 && argv[1][0] == '-')
-        for (int i = 1; i < argc - 1; i++)
-            if (!strcmp(argv[i], "--remap") || !strcmp(argv[i], "-r"))
-                chartoint = remap_binary;
-            else if (!strcmp(argv[i], "-V") || !strcmp(argv[i], "--verbose"))
-                verbose = true;
-            else
-                return raise_inv_arg(argv[i]);
-    else if (argc == 2)
-        if (!strcmp(argv[1],  "-h") || !strcmp(argv[1],  "--help"))
+    if (argc < 2) 
+        return raise_inv_argc(argc);
+    
+    //handle options
+    for (int i = 1; i < argc; i++) 
+        if (!strcmp(argv[i], "--remap") || !strcmp(argv[i], "-r"))
+            chartoint = remap_binary;
+        else if (!strcmp(argv[i], "-V") || !strcmp(argv[i], "--verbose"))
+            verbose = true;
+        else if (!strcmp(argv[1],  "-h") || !strcmp(argv[1],  "--help"))
             return print_help();
         else if (!strcmp(argv[1], "-l") || !strcmp(argv[1], "--list-states"))
             return list_states(); 
-        else if (argv[1][0] == '-')
-            return raise_inv_arg(argv[1]);
-        else
-            chartoint= subtract_zero;
-    else
-        return raise_inv_argc(argc);
+        else if (i != argc - 1) //its not a valid option
+            return raise_inv_arg(argv[i]); 
+        else //prevent dangling else
+            continue;
     
     int em_len = strlen(instring);
     int em_seq[em_len];
